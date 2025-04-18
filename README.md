@@ -30,23 +30,4 @@ cd project_05
 docker-compose up --build
 ```
 
-### Backend
-
-```bash
-cd backend
-
-# Установка зависимостей
-npm install  # или pip install -r requirements.txt
-
-# Запуск сервера
-npm start
-```
-
-### Frontend
-
-```
-cd frontend
-npm install
-npm start
-```
 
