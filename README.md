@@ -8,15 +8,15 @@
 
 project_05
   
-  ├── frontend/ # Интерфейс пользователя (React) 
-  
-  ├── backend/ # Серверная логика (Python) 
-  
-  ├── .github/ # Настройки GitHub Actions 
-  
-  ├── .gitignore 
-  
-  └── README.md
+      ├── frontend/ # Интерфейс пользователя (React) 
+      
+      ├── backend/ # Серверная логика (Python) 
+      
+      ├── .github/ # Настройки GitHub Actions 
+      
+      ├── .gitignore 
+      
+      └── README.md
 
 ## 🚀 Запуск проекта
 
