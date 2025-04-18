@@ -1,0 +1,15 @@
+# Node.js (для frontend и backend)
+node_modules/
+dist/
+build/
+
+# Python (если backend на Python)
+__pycache__/
+*.pyc
+.env
+
+# System
+.DS_Store
+*.log
+
+media/
