@@ -22,6 +22,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+'http://frontend:3000',
 ]
 
 # settings.py
@@ -96,7 +97,7 @@ DATABASES = {
         'NAME': 'postgres1',
         'USER': 'postgres',
         'PASSWORD': '11111',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
