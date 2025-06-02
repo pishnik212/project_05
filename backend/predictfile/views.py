@@ -44,7 +44,7 @@ class PredictfileView(APIView):
         if serializer.is_valid():
             predictfile = serializer.save()
 
-            # Список и фиотрация SourceFile
+            # Список и фильтрация SourceFile
             raw_ids = request.data.getlist('SourceFiles')
             print('raw_ids', raw_ids)
             valid_ids = []
