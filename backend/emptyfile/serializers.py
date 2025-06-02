@@ -19,7 +19,6 @@ class EmptyfileSerializer(serializers.ModelSerializer):
 
     def get_DownloadOfficer(self, obj):
         officer = obj.DownloadOfficerId
-        # print("DEBUG OFFICER:", officer)  # ← добавь это
         if officer:
             return f"{officer.LastName} {officer.FirstName[0]}. {officer.SecondName[0]}."
         return ""
