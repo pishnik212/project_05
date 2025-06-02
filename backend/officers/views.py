@@ -13,7 +13,7 @@ class OfficerView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse("Officer and User created successfully", safe=False)
+            return JsonResponse("Учетная запись сотрудника создана успешно", safe=False)
         return JsonResponse(serializer.errors, safe=False)
 
     def get_officer(self, pk):
@@ -37,12 +37,12 @@ class OfficerView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse("Officer updated successfully", safe=False)
+            return JsonResponse("Учетная запись сотрудника обновлена успешно", safe=False)
         return JsonResponse(serializer.errors, safe=False)
 
     def delete(self, request, pk=None):
         officer = self.get_officer(pk)
-        officer.user.delete()  # Удаляем также и пользователя
+        officer.user.delete()
         officer.delete()
         return JsonResponse("Officer and User deleted successfully", safe=False)
 
@@ -50,23 +50,23 @@ class OfficerView(APIView):
 @api_view(['GET'])
 def get_officer_by_user_id(request, user_id):
     try:
-        # Логируем user_id, чтобы убедиться, что он передается правильно
+        # Лог
         print(f"Looking for officer with user_id: {user_id}")
 
-        # Получаем офицера по user_id
+        # офицер по user_id
         officer = Officer.objects.get(user__id=user_id)
 
-        # Логируем данные офицера, чтобы убедиться, что мы его нашли
+        # Лог данные офицера
         print(f"Found officer: {officer.FirstName} {officer.LastName}")
 
         serializer = OfficerSerializer(officer)
         return Response(serializer.data)
 
     except Officer.DoesNotExist:
-        print(f"Officer with user_id {user_id} not found.")
-        return Response({"error": "Officer not found"}, status=404)
+        print(f"Учетная запись сотрудника с user_id {user_id} не найдена")
+        return Response({"error": "Учетная запись сотрудника не найдена"}, status=404)
     except Exception as e:
-        # Логируем ошибку
+        # Лог ошибки
         print(f"Error: {str(e)}")
         return Response({"error": str(e)}, status=500)
 
