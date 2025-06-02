@@ -23,7 +23,7 @@ project_05
 ### Скачивание проекта
 
 ```
-git clone https://github.com/djulygpro/project_05.git
+git clone https://github.com/pishnik212/project_05.git
 
 cd project_05
 
