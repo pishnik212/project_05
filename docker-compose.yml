@@ -1,16 +1,6 @@
-services:
-  backend:
-    build:
-      context: ./backend
-    volumes:
-      - ./backend:/app
-    ports:
-      - "8000:8000"
-    environment:
-      - DEBUG=True
-    depends_on:
-      - db
+version: '3.8'
 
+services:
   frontend:
     build:
       context: ./frontend
@@ -21,16 +11,71 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
 
-  db:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    volumes:
+      - ./api-gateway:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - applicants-service
+      - ml-model-service
+
+  applicants-service:
+    build:
+      context: ./applicants-service
+    volumes:
+      - ./applicants-service:/app
+    ports:
+      - "8001:8000"
+    environment:
+      - DB_HOST=applicants-db
+      - DB_PORT=5432
+      - DB_USER=applicants_user
+      - DB_PASSWORD=applicants_pass
+      - DB_NAME=applicants_db
+    depends_on:
+      - applicants-db
+
+  applicants-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 11111
-      POSTGRES_DB: postgres1
+      POSTGRES_USER: applicants_user
+      POSTGRES_PASSWORD: applicants_pass
+      POSTGRES_DB: applicants_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - applicants_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
+
+  ml-model-service:
+    build:
+      context: ./ml-model-service
+    volumes:
+      - ./ml-model-service:/app
+    ports:
+      - "8002:8000"
+    environment:
+      - DB_HOST=ml-model-db
+      - DB_PORT=5432
+      - DB_USER=ml_user
+      - DB_PASSWORD=ml_pass
+      - DB_NAME=ml_db
+    depends_on:
+      - ml-model-db
+
+  ml-model-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ml_user
+      POSTGRES_PASSWORD: ml_pass
+      POSTGRES_DB: ml_db
+    volumes:
+      - ml_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
 
 volumes:
-  postgres_data:
+  applicants_data:
+  ml_data:
