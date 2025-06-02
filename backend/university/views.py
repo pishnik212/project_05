@@ -18,7 +18,7 @@ class UniversityView(APIView):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse("Университет добавлен успешно",          safe=False)
-        return JsonResponse("Failed to Add University", safe=False)
+        return JsonResponse("Не удалось добавить Университет", safe=False)
 
 
     def get_university(self, pk):
@@ -26,7 +26,7 @@ class UniversityView(APIView):
             university = University.objects.get(universityId=pk)
             return university
         except:
-            return JsonResponse("University Does Not Exist", safe=False)
+            return JsonResponse("Университет не существует", safe=False)
 
     def get(self, request, pk=None):
         if pk:
@@ -44,10 +44,10 @@ class UniversityView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse("University Updated Successfully", safe=False)
-        return JsonResponse("Failed to Update University")
+            return JsonResponse("Университет обновлен успешно", safe=False)
+        return JsonResponse("Не удалось обновить Университет")
 
     def delete(self, request, pk=None):
         university_to_delete = University.objects.get(universityId=pk)
         university_to_delete.delete()
-        return JsonResponse("University Deleted Successfully", safe=False)
+        return JsonResponse("Университет удален успешно", safe=False)
