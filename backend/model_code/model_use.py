@@ -94,7 +94,7 @@ def data_preprocessing(df):
 def get_scaler_data(X_train, X_test, y_train):
 
     scaler = StandardScaler()
-    cols_to_scale = ['Achievements', 'Exams', 'Dormitory']  # замени на свои
+    cols_to_scale = ['Achievements', 'Exams', 'Dormitory'] 
 
     X_train[cols_to_scale] = scaler.fit_transform(X_train[cols_to_scale])
     X_test[cols_to_scale] = scaler.transform(X_test[cols_to_scale])
@@ -106,14 +106,14 @@ def get_scaler_data(X_train, X_test, y_train):
     return X_resampled, y_resampled, scaler
 
 def clf_fit(X_resampled, y_resampled):
-    scale_pos_weight = 1  # как альтернатива class_weight — но мы уже балансировали SMOTE
+    scale_pos_weight = 1  
 
     clf = xgb.XGBClassifier(
         objective='binary:logistic',
         eval_metric='logloss',
         use_label_encoder=False,
         random_state=42,
-        scale_pos_weight=scale_pos_weight,  # влияет на ошибку FN/FP
+        scale_pos_weight=scale_pos_weight, 
         max_depth=5,
         learning_rate=0.1,
         n_estimators=100
@@ -125,17 +125,16 @@ def clf_fit(X_resampled, y_resampled):
 def get_predictions(clf, X_test, y_test):
     y_scores = clf.predict_proba(X_test)[:, 1]
 
-    # Подберём лучший threshold по F1
+    # Подбор порога threshold по F1
     thresholds = np.linspace(0.01, 0.99, 100)
     f1_scores = [f1_score(y_test, (y_scores >= t).astype(int)) for t in thresholds]
 
     best_threshold = thresholds[np.argmax(f1_scores)]
-    print(f"🔸 Лучший threshold по F1: {best_threshold:.3f}, F1: {max(f1_scores):.3f}")
+    print(f"Лучший threshold по F1: {best_threshold:.3f}, F1: {max(f1_scores):.3f}")
 
-    # Теперь проверим метрики при этом пороге
     y_pred = (y_scores >= best_threshold).astype(int)
 
-    print("\n🔹 Classification Report:")
+    print("\nClassification Report:")
     print(classification_report(y_test, y_pred))
     print("ROC AUC:", roc_auc_score(y_test, y_scores))
 
@@ -153,37 +152,36 @@ def predict_data(X_train, X_new, scaler, clf):
     existing_columns = [col for col in columns_to_drop if col in X_new.columns]
     X_new = X_new.drop(columns=existing_columns)
 
-    # Оставляем те же колонки, что были на обучении
-    X_new = X_new[X_train.columns]  # X_train — это обучающие данные
+    # Выбор колонок
+    X_new = X_new[X_train.columns]  
     X_new = X_new.fillna(0)
     X_new[['Achievements', 'Exams', 'Dormitory']] = scaler.transform(X_new[['Achievements', 'Exams', 'Dormitory']])
 
-    # 5. Прогон через модель
     new_probs = clf.predict_proba(X_new)[:, 1]
 
-    # Используем оптимальный threshold, например:
-    best_threshold = 0.67  # или свой найденный
+    # Оптимальный threshold
+    best_threshold = 0.67 
     new_preds = (new_probs >= best_threshold).astype(int)
 
-    # Добавим в датафрейм
+    # Добавление столбцов
     orig['predicted_class'] = new_preds
     orig['probability'] = new_probs
 
 
-    # 7. Сохраняем результат
+    # Сохранение с сортировкой
 
     orig = orig.sort_values(by=['predicted_class', 'Exams'], ascending=False)
     return orig
 
 def get_score(file):
 
-    # Фильтруем строки, где predicted == 1
+    # Строки, где predicted == 1
     predicted_ones = file[file['predicted_class'] == 1]
 
     if predicted_ones.empty:
-        min_score = 0  # Или None — если тебе нужно указать "ничего не найдено"
+        min_score = 0  
     else:
-        # Берем минимальное значение из столбца Exams
+        # Берем min Exams
         min_score = predicted_ones['Exams'].min()
 
     return min_score
@@ -205,7 +203,7 @@ def merge_excel_files(files_list, empty_files_paths, number=0):
     y_pred = get_predictions(clf, X_test, y_test)
     file = predict_data(X_train, X_new, scaler, clf)
     print(666)
-    print('oki')
+    print('ok')
     min_score = get_score(file)
 
     return file, min_score
