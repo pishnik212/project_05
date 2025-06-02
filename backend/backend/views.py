@@ -10,10 +10,10 @@ from rest_framework.decorators import api_view
 def serve_csv_inline(request, filename):
     file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', filename)
 
-    # Отдаем файл с правильным content-type
+    # Правильный content-type
     response = FileResponse(open(file_path, 'rb'), content_type='text/csv')
 
-    # Заголовок для открытия файла в браузере
+    # Заголовок файла в браузере
     response['Content-Disposition'] = f'inline; filename="{filename}"'
 
     return response
@@ -25,7 +25,7 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 
 
-@csrf_exempt  # Отключает проверку CSRF для этого представления
+@csrf_exempt  # Отключение проверки CSRF
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
@@ -43,7 +43,6 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from django.core.files.base import ContentFile
 import base64
-# Найди нужный объект
 
 import os
 
