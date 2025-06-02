@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.http.response import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,8 +16,8 @@ class EducationformView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse("Educationform Added Successfully",          safe=False)
-        return JsonResponse("Failed to Add Educationform", safe=False)
+            return JsonResponse("Форма обучения добавлена успешно",          safe=False)
+        return JsonResponse("Не удалось добавить форму обучения", safe=False)
 
 
     def get_educationform(self, pk):
@@ -26,7 +25,7 @@ class EducationformView(APIView):
             ep = Educationform.objects.get(efId=pk)
             return ep
         except:
-            return JsonResponse("University Does Not Exist", safe=False)
+            return JsonResponse("Университет не существует!", safe=False)
 
     def get(self, request, pk=None):
         if pk:
