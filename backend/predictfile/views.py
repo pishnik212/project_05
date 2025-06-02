@@ -23,9 +23,9 @@ class PredictfileView(APIView):
 
     def post(self, request, *args, **kwargs):
         import math
-        data = request.data.copy()  # Создаем копию, чтобы можно было редактировать
+        data = request.data.copy()  # Копия для редактирования
 
-        # Безопасная обработка MinExamScore
+        # Обработка MinExamScore
         min_score = data.get('MinExamScore', 0)
         print('min_score1', min_score)
 
@@ -36,7 +36,7 @@ class PredictfileView(APIView):
         except (ValueError, TypeError):
             min_score = 0
 
-        data['MinExamScore'] = min_score  # Обновляем значение
+        data['MinExamScore'] = min_score  # Обновление балла
         print('min_score2', min_score)
 
         serializer = PredictfileSerializer(data=data)
@@ -44,7 +44,7 @@ class PredictfileView(APIView):
         if serializer.is_valid():
             predictfile = serializer.save()
 
-            # Получаем список SourceFiles и фильтруем только корректные числовые значения
+            # Список и фиотрация SourceFile
             raw_ids = request.data.getlist('SourceFiles')
             print('raw_ids', raw_ids)
             valid_ids = []
@@ -54,7 +54,7 @@ class PredictfileView(APIView):
                     int_id = int(file_id)
                     valid_ids.append(int_id)
                 except (ValueError, TypeError):
-                    # Просто пропускаем некорректные id
+                    # Пропуск некорректных id
                     continue
             print('ok111')
 
@@ -67,7 +67,7 @@ class PredictfileView(APIView):
             # Добавляем файлы в связь
             for file_id in valid_ids:
                 try:
-                    # Попробуем безопасно преобразовать в int
+                    # Преобразование в int
                     file_id = int(file_id)
                     file_instance = Filesnew.objects.get(fileId=file_id)
                     predictfile.SourceFiles.add(file_instance)
