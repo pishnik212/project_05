@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.http.response import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,8 +16,8 @@ class EducationalprogramView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse("Educationalprogram Added Successfully",          safe=False)
-        return JsonResponse("Failed to Add Educationalprogram", safe=False)
+            return JsonResponse("Образовательная программа добавлена успешно",          safe=False)
+        return JsonResponse("Не удалось добавить образовательную программу", safe=False)
 
 
     def get_educationalprogram(self, pk):
