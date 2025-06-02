@@ -8,7 +8,7 @@
 
       ├── project_05
   
-      ├── frontend/ # Интерфейс пользователя (React) 
+            ├── frontend/ # Интерфейс пользователя (React) 
       
       ├── backend/ # Серверная логика (Python) 
       
