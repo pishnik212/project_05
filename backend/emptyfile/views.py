@@ -49,7 +49,7 @@ class EmptyfileView(APIView):
 
 
     def post(self, request):
-        print("FILES:", request.FILES)  # ← добавь это
+        print("FILES:", request.FILES)  
         print("DATA:", request.data)
         serializer = EmptyfileCreateSerializer(data=request.data)
         if serializer.is_valid():
