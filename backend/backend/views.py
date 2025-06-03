@@ -45,6 +45,3 @@ from django.core.files.base import ContentFile
 import base64
 
 import os
-
-## до этого было норм
-# views.py
