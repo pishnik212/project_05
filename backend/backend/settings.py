@@ -27,9 +27,9 @@ CORS_ALLOWED_ORIGINS = [
 
 # settings.py
 MEDIA_URL = '/media/'  # Для доступа через HTTP
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Где будут храниться файлы на сервере
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'user.User'  # Где 'myapp' — это название твоего приложения, а 'User' — это твоя кастомная модель
+AUTH_USER_MODEL = 'user.User'  
 
 # Application definition
 
