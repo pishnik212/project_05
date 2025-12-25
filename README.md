@@ -9,7 +9,7 @@
 
 ### Функциональные требования
 
- <img width="500" src="Screenshots/Рисунок1.png" alt="1"/>
+ <img width="900" src="Screenshots/Рисунок1.png" alt="1"/>
 
 ## Структура проекта
 
